@@ -47,7 +47,7 @@ bool schedule(
     }
     sched.clear();
     // Add your code below
-    //initalize first vector in first row so can work with in helper function
+    //initalize first vector in first row so can work with in helper function without seg fault
     vector<Worker_T> temp;
     sched.push_back(temp);
     return scheduleHelper(avail, dailyNeed, maxShifts, sched, 0, 0);
@@ -55,17 +55,17 @@ bool schedule(
 
 /**
  * @brief 
- * 
+ * does the main work of making the schedule
+ * I had to make a helper function to include the last two parameters
  * @param avail: availability matrix
  * @param dailyNeed: amount need per day
  * @param maxShifts : max shifts allowed for each employee
  * @param sched : the current schedule as it is built out
  * @param dayIndex : index of the day we are working with in sched matrix
  * @param workerIndex : index of which worker start at in AVAILABILITY ARRAY
- * @return * helper 
+ * @return boolean over whether was successful or not 
  */
 
-//WORK THROUGH EMPTY SCHED NOT AVAIL SO START SCCHED WITH 0s
 bool scheduleHelper(
     const AvailabilityMatrix& avail,
     const size_t dailyNeed,
@@ -103,7 +103,9 @@ bool scheduleHelper(
 					vector<Worker_T> temp;
 					sched.push_back(temp);
 				}
+				//add the worker number to the schedule for now
         sched[dayIndex].push_back(i);
+				//recursively check if end up with a valid combination
         if (scheduleHelper(avail, dailyNeed, maxShifts, sched, dayIndex, workerIndex+1))
         {
             return true;
